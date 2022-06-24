@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+from WisdomClass.header import HttpResponseCustomHeader
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'webtest',
     'user',
     'classes',
-    'notice'
+    'notice',
+    'resource'
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "WisdomClass.header.HttpResponseCustomHeader"
 ]
 
 ROOT_URLCONF = 'WisdomClass.urls'
@@ -138,3 +141,5 @@ AUTH_USER_MODEL = 'user.User'
 
 SESSION_COOKIE_SAMESITE='None'
 
+MEDIA_URL = '/api/v1/resourse/upload/' # 什么样的请求是文件上传的请求
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # 上传资源存放位置
