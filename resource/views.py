@@ -44,8 +44,10 @@ def all_view(request):
         data = json.loads(request.body)
         cla = Class.objects.get(id=data.get('class_id'))
         class_res = Resource.objects.filter(classes=cla).order_by('-id')
-        paginator = Paginator(class_res, 8)
         arr = []
+        if not class_res:
+            return JsonResponse({'Code':0,'data':{"data":arr,"count":0}})
+        paginator = Paginator(class_res, 8)
         for k in paginator.page(data.get('currentPage')):
             arr.append({"file_id":k.id,"name":k.file.name,"path":k.file.path,"description":k.description,"uploader":k.uploader.name or '匿名用户',"uploader_id":k.uploader.username,"size":k.file.size})
         return JsonResponse({"Code": 0, "data": {"data":arr,"count":paginator.count}})

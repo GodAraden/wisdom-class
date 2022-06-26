@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'user',
     'classes',
     'notice',
-    'resource'
+    'resource',
+    'score'
 ]
 
 MIDDLEWARE = [

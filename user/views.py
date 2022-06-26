@@ -45,7 +45,8 @@ def whoAmI_view(request):
                 "email":user.user_email,
                 "name":user.name,
                 "sex":user.sex,
-                "birthday":user.birday
+                "birthday":user.birday,
+                "number":user.number
             }
             return JsonResponse({"Code": 0, "data": user})
         except Exception as e:
@@ -60,5 +61,6 @@ def changeInfo_view(request):
         user.set_name(data.get('name'))
         user.set_sex(data.get('sex'))
         user.set_birthday(data.get('birthday'))
+        user.set_number(data.get('number'))
         user.save()
         return JsonResponse({"Code": 0, "data": '修改成功'})

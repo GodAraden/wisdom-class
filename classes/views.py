@@ -1,4 +1,6 @@
 import json
+
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from user.models import User
 from .models import Class,Class_Members,Class_Request
@@ -25,9 +27,10 @@ def classMember_view(request):
         data = json.loads(request.body)
         c = Class.objects.get(id=data.get('class_id'))
         arr = []
-        for k in c.class_members_set.all():
+        paginator = Paginator(c.class_members_set.all(), 10)
+        for k in paginator.page(data.get('currentPage')):
             arr.append({'id':k.member_id.id,'name':k.member_id.name or '匿名用户','phone':k.member_id.username,'user_type':k.member_id.user_type})
-        return JsonResponse({"Code":0,"data":arr})
+        return JsonResponse({"Code":0,"data":{"data":arr,"count":paginator.count}})
 
 def searchByPhone_view(request):
     if request.method == 'POST':

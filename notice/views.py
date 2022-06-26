@@ -10,8 +10,10 @@ def getNoticeByClass(request):
         data = json.loads(request.body)
         cla = Class.objects.get(id=data.get('class_id'))
         notices = Notice.objects.filter(located_class=cla).order_by('-last_changed')
-        paginator = Paginator(notices, 10)
         arr = []
+        if not notices:
+            return JsonResponse({'Code':0,'data':{"data":arr,"count":0}})
+        paginator = Paginator(notices, 10)
         for k in paginator.page(data.get('currentPage')):
             arr.append({"key":k.id,"creator_id":k.creator.username,"creator":k.creator.name,"title":k.title,"content":k.content,"last_changed":k.last_changed})
         return JsonResponse({'Code':0,'data':{"data":arr,"count":paginator.count}})
