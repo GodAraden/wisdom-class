@@ -57,6 +57,7 @@ def download_view(request):
         data = json.loads(request.body)
         f = Resource.objects.get(id=data.get("file_id")).file
         file = open(f.path, 'rb')
+        print(f.path)
         response = FileResponse(file,filename=f.name, as_attachment=True)
         response['Content-Type']='application/octet-stream'
         response['Content-Disposition'] = 'attachment;filename=utf-8{}'.format(escape_uri_path(f.name))

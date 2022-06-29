@@ -7,7 +7,7 @@ class User(AbstractUser):
     name = models.CharField(max_length=20, default='',verbose_name='姓名')
     birday = models.DateField(verbose_name='生日', null=True, blank=True)
     user_email = models.EmailField(verbose_name="user_email", default='')
-    number = models.CharField(max_length=20,default='',verbose_name='学号')
+    number = models.CharField(max_length=20,default='',verbose_name='学号',null=True)
     class Meta:
         verbose_name = '用户信息'
         verbose_name_plural = verbose_name
