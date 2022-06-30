@@ -4,5 +4,7 @@ urlpatterns = [
     path('create',views.createHomework_view),
     path('getall', views.getHomeworkByClass_view),
     path("getone",views.getHomeworkById_view),
-    path("answer",views.answer_view)
+    path("answer",views.answer_view),
+    path("result",views.getAllResult_view),
+    path("score",views.score_view)
 ]

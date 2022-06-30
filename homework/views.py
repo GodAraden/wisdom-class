@@ -43,3 +43,28 @@ def answer_view(request):
         content = json.dumps(data.get("answer"))
         Answer.objects.create(homework=homework,user=user,content=content)
         return  JsonResponse({"Code": 0, "data": '提交成功'})
+
+def getAllResult_view(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        homework = Homework.objects.get(id=data.get("id"))
+        questions = []
+        for k in json.loads(homework.content):
+            questions.append({"key":k.get("key"),"title":k.get("title")})
+        results = Answer.objects.filter(homework=homework)
+        arr = []
+        for k in results:
+            t = json.loads(k.content)
+            result = {"id":k.id,"user": k.user.name or k.user.username,"score": k.score}
+            for k in t:
+                result[k.get("key")] = str(k.get("value"))
+            arr.append(result)
+        return JsonResponse({"Code":0,"data": {"question":questions,"result":arr}})
+
+def score_view(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        answer = Answer.objects.get(id=data.get("id"))
+        answer.score = data.get("score")
+        answer.save()
+        return JsonResponse({"Code":0,"data":"打分成功"})
